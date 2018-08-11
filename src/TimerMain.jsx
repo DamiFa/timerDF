@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import Timer from './services/timer';
 import TimerDisplay from './TimerDisplay'
-import TimerControl from './TimerControls'
+import TimerControl from './TimerControls';
+import TimerForm from './TimerForm';
 import sound from "./sounds/bubbles.mp3";
 
 class TimerMain extends Component{
   constructor(){
     super();
 
-    this.timer = new Timer(45*60);
+    this.timer = new Timer(0);
 
     this.state = {
       currentTime: this.timer.getCurrentTime()
@@ -20,25 +21,11 @@ class TimerMain extends Component{
     this.pauseTimer = this.pauseTimer.bind(this);
     this.resumeTimer = this.resumeTimer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
+    this.setUpTimer = this.setUpTimer.bind(this);
   }
 
   componentDidMount(){
-    this.timer.addEventListener(
-      'secondUpdated', 
-      () => this.setState({currentTime: this.timer.getCurrentTime()})
-    );
-
-    this.timer.addEventListener(
-      'restarted', 
-      () => this.setState({currentTime: this.timer.getCurrentTime()})
-    );
-
-    this.timer.addEventListener(
-      "ended",
-      () => {
-        this.sound.play();
-      }
-    )
+    this.setUpTimer();
   }
 
   startTimer(){
@@ -57,12 +44,48 @@ class TimerMain extends Component{
     this.timer.reset();
   }
   
-  setUpTimer(){
-    
+  setUpTimer(secondsToSetUp = 0){
+    this.timer = new Timer(secondsToSetUp);
+
+    this.setState({
+      currentTime: this.timer.getCurrentTime()
+    })
+
+    this.timer.addEventListener(
+      "secondUpdated", 
+      () => this.setState({currentTime: this.timer.getCurrentTime()})
+    );
+
+    this.timer.addEventListener(
+      "started", 
+      () => this.setState({currentTime: this.timer.getCurrentTime()})
+    );
+
+    this.timer.addEventListener(
+      "restarted", 
+      () => this.setState({currentTime: this.timer.getCurrentTime()})
+    );
+
+    this.timer.addEventListener(
+      "ended",
+      () => {
+        this.sound.play();
+      }
+    )
   }
 
   formatTimer(){
-    return `${this.state.currentTime.hours}:${this.state.currentTime.minutes}:${this.state.currentTime.seconds}`;
+    let { hours, minutes, seconds } = this.state.currentTime;
+
+    return `${this.formateTime(hours)}:${this.formateTime(minutes)}:${this.formateTime(seconds)}`;
+  }
+
+  formateTime(timeToFormat){
+    let time = timeToFormat.toString();
+    if(time.length === 1){
+      return `0${time}`;
+    }
+    else return `${time}`;
   }
 
   render(){
@@ -75,6 +98,7 @@ class TimerMain extends Component{
           onResume={this.resumeTimer}
           onReset={this.resetTimer}
         />
+        <TimerForm setUpTimer={this.setUpTimer}/>
       </div>
     )
   }

@@ -14,14 +14,15 @@ export default class Timer {
     this.targetTime = new Date().getTime() + secondsToCountdownFrom*1000;
     this.currentTime = new Date().getTime();
     this.distanceInSeconds =  Math.ceil((this.targetTime - this.currentTime) / 1000);
+    this.dispatchEvent('started');
 
     this.intervalId = setInterval(() => {
-      if(this.distanceInSeconds >  0){
-        console.log(this.distanceInSeconds);
-        this.currentTime = new Date().getTime();
-        this.distanceInSeconds =  Math.ceil((this.targetTime - this.currentTime) / 1000);
-        this.dispatchEvent('secondUpdated');
-      } else {
+      console.log(this.distanceInSeconds);
+      this.currentTime = new Date().getTime();
+      this.distanceInSeconds =  Math.ceil((this.targetTime - this.currentTime) / 1000);
+      this.dispatchEvent('secondUpdated');
+    
+      if(this.distanceInSeconds <= 0){
         clearInterval(this.intervalId);
         console.log("ended");
         this.dispatchEvent("ended");
