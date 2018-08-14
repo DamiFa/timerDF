@@ -33,10 +33,15 @@ class PresetList extends Component{
     this.setState({presets});
   }
 
-  addPreset(timeInSeconds){
-    let presets = [...this.state.presets, timeInSeconds];
-    localStorage.setItem("presets", presets);
-    this.setState({presets, showForm: false});
+  addPreset(sec){
+    if(sec > 0){
+      let secondsToSetUp = Math.min(sec, 359999);
+      let presets = [...this.state.presets, secondsToSetUp];
+      localStorage.setItem("presets", presets);
+      this.setState({presets, showForm: false});
+    } else {
+      this.setState({showForm: false});
+    }
   }
   
   render() {
@@ -55,18 +60,17 @@ class PresetList extends Component{
     if(presets.length < PRESET_LIMIT){
       if(this.state.showForm){
         displayForm = 
-          <div>
+          <div className="preset-timer-form">
             <TimerForm onSubmit={this.addPreset} />
-            <span onClick={() => this.setState({showForm: false})}>X</span>
           </div>
       } else {
-        displayForm = <button onClick={() => this.setState({showForm: true})}>Add Preset</button>
+        displayForm = <button className="preset-add-button" onClick={() => this.setState({showForm: true})}><i className="fas fa-plus"></i></button>
       }
     }
     
     return (
-      <div>
-        <ul>
+      <div id="presets">
+        <ul className="preset-list">
           {timerPresetList}
         </ul>
         {displayForm}

@@ -53,8 +53,10 @@ class TimerMain extends Component{
   }
 
   startTimer(){
-    this.timer.start();
-    this.setState({currentState: TIMER_STATE.running});
+    if(this.state.startingTime > 0){
+      this.timer.start();
+      this.setState({currentState: TIMER_STATE.running});
+    }
   }
 
   pauseTimer(){
@@ -72,10 +74,12 @@ class TimerMain extends Component{
     this.setState({currentState: TIMER_STATE.default});
   }
   
-  setUpTimer(secondsToSetUp){
-    if(secondsToSetUp){
+  setUpTimer(sec){
+    if(sec){
+      let secondsToSetUp = Math.min(sec, 359999);
+
       this.resetTimer();
-      this.timer = new Timer(secondsToSetUp);
+      this.timer = new Timer(Number(secondsToSetUp));
       
       this.setState({
         currentTime: this.timer.getCurrentTime(),
@@ -102,6 +106,7 @@ class TimerMain extends Component{
       "ended",
       () => {
         this.sound.play();
+        this.setState({currentState: TIMER_STATE.default});
       }
     )
   }
@@ -116,6 +121,9 @@ class TimerMain extends Component{
           time={formatTimer(this.state.currentTime)}
           progress={percentTime}
         />
+        <div id="main-timer-form">
+          <TimerForm onSubmit={this.setUpTimer}/>
+        </div>
         <TimerControl 
           onStart={this.startTimer}
           onPause={this.pauseTimer}
@@ -123,7 +131,6 @@ class TimerMain extends Component{
           onReset={this.resetTimer}
           timerState={currentState}
         />
-        <TimerForm onSubmit={this.setUpTimer}/>
         <PresetList onClick={this.setUpTimer}/>
       </div>
     )

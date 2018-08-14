@@ -1,5 +1,158 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+input{
+  text-align: center;
+}
+
+/* For Firefox */
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+/* Webkit browsers like Safari and Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+button{
+  background-color: transparent;
+  border: none;
+}
+
+ul{
+  list-style: none;
+  padding: 0;
+}
+
+h3{
+  display: inline-block;
+  margin: 0%;
+}
+
+li>h3, li>span{
+  cursor: default
+}
+
+li>span{
+  color: #F17F29;
+  font-size: 20px;
+}
+
+#main{
+  margin: 2em 1em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+#timer-controls{
+  display: flex;
+}
+
+#timer-display{
+  margin-bottom: 20px;
+}
+
+#presets{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* padding: 1px 50px 15px 50px; */
+  /* border: 1px solid #dfdfdf; */
+}
+
+#main-timer-form{
+  position: relative;
+  height: 0;
+  top: -150px;
+}
+
+.timer-form{
+  display: flex;
+  flex: wrap;
+  margin-right: -30px;
+  margin-bottom: 20px;
+}
+
+.form-inputs{
+  display: inline-block;
+  border: 1px solid #233441;
+  padding: 2px 4px;
+}
+
+.timer-form input{
+  width: 50px;
+  border: none;
+}
+
+.timer-form input:active{
+  border: none;
+}
+
+.timer-form button{
+  width: 30px;
+  color: #F17F29;
+}
+
+.timer-display-circle{
+  height: 320px;
+  width: 320px;
+}
+
+.timer-display-circle circle{
+  cx: 160px;
+  cy: 160px;
+  fill: transparent;
+  stroke: #7FBEEB;
+  stroke-width: 15px;
+}
+
+.timer-display-circle .circle-background{
+  stroke: #D4BEBE;
+  z-index: -1;
+}
+
+.timer-display-time{
+  position: relative;
+  font-size: 3em;
+  width: 320px;
+  height: 0;
+  margin: 0;
+  top: -200px;
+  text-align: center;
+  color: #233441;
+}
+
+#timer-controls label{
+  font-size: 50px;
+  padding: 10px 20px;
+  color: #F17F29;
+}
+
+.preset-item h3{
+  border: 1px solid #F17F29;
+  margin: 10px 5px;
+  padding: 5px 10px;
+  color: #233441;
+}
+
+.preset-item {
+  margin-right: -35px;
+}
+
+.preset-item span{
+  margin: 1px 10px;
+}
+
+#presets .preset-add-button{
+  font-size: 20px;
+  color: #F17F29;
 }

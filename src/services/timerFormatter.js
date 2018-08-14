@@ -1,7 +1,7 @@
 export function formatTimer(timeHashed){
   let {hours, minutes, seconds} = timeHashed;
 
-  return `${formateTime(hours)}:${formateTime(minutes)}:${formateTime(seconds)}`;
+  return `${formateTime(hours)} : ${formateTime(minutes)} : ${formateTime(seconds)}`;
 }
 
 export function hashTime(timeInSeconds){

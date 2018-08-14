@@ -6,15 +6,15 @@ const TimerControl = ({onStart, onPause, onResume, onReset, timerState}) => {
 
   switch (timerState) {
     case TIMER_STATE.default:
-      buttonToRender = <button onClick={onStart}>Start</button>;
+      buttonToRender = <label onClick={onStart}><i className="fas fa-play"></i></label>;
       break;
 
     case TIMER_STATE.running:
-      buttonToRender = <button onClick={onPause}>Pause</button>;
+      buttonToRender = <label onClick={onPause}><i className="fas fa-pause"></i></label>;
       break;
 
     case TIMER_STATE.paused:
-      buttonToRender = <button onClick={onResume}>Resume</button>;
+      buttonToRender = <label onClick={onResume}><i className="fas fa-play"></i></label>;
       break;
 
     default:
@@ -22,9 +22,9 @@ const TimerControl = ({onStart, onPause, onResume, onReset, timerState}) => {
   }
 
   return (
-    <div>
+    <div id="timer-controls">
       {buttonToRender}
-      <button onClick={onReset}>Reset</button>
+      <label onClick={onReset}><i className="fas fa-undo-alt"></i></label>
     </div>
   )
 }

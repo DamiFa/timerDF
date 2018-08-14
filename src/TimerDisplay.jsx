@@ -1,25 +1,28 @@
 import React from "react";
 
 const TimerDisplay = ({time, progress}) => {
-  const radius = 90;
+  const radius = 150;
   const circumference = 2*Math.PI*radius;
   const dashSize = -circumference*(1-progress);
 
   return (
     <div id="timer-display">
-      <svg style={{transform: 'rotate(-90deg)'}}>
+      <svg className="timer-display-circle" style={{transform: 'rotate(-90deg)'}}>
         <circle 
           r={radius}
-          cx="100"
-          cy="100"
-          fill="transparent"
-          stroke="#FF8F1E"
+          className="circle-background"
+        >
+        </circle>
+        <circle 
+          r={radius}
           strokeDasharray={circumference}
           strokeDashoffset={dashSize}
         >
         </circle>
       </svg>
-      {time}
+      <h1 className="timer-display-time">
+        {time}
+      </h1>
     </div>
   )
 }
