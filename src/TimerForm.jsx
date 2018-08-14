@@ -5,9 +5,9 @@ class TimerForm extends Component {
     super(props);
 
     this.state = {
-      seconds: 0,
-      minutes: 0,
-      hours: 0
+      seconds: "",
+      minutes: "",
+      hours: ""
     }
   }
 
@@ -22,7 +22,12 @@ class TimerForm extends Component {
     const timeInSeconds = seconds*1 + minutes*60 + hours*60*60;
 
     e.preventDefault();
-    this.props.setUpTimer(timeInSeconds);
+    this.props.onSubmit(timeInSeconds);
+    this.setState({
+      seconds: "",
+      minutes: "",
+      hours: ""
+    })
   }
 
   render(){
@@ -36,6 +41,7 @@ class TimerForm extends Component {
             name="hours"
             id="hours"
             step="1"
+            min="0"
             value={hours}
             placeholder="Hours"
             onChange={this.handleChange}
@@ -48,6 +54,7 @@ class TimerForm extends Component {
             name="minutes"
             id="minutes"
             step="1"
+            min="0"
             value={minutes}
             placeholder="Minutes"
             onChange={this.handleChange}
@@ -60,6 +67,7 @@ class TimerForm extends Component {
             name="seconds"
             id="seconds"
             step="1"
+            min="0"
             value={seconds}
             placeholder="Seconds"
             onChange={this.handleChange}

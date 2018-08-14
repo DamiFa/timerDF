@@ -1,5 +1,5 @@
 export default class Timer {
-  constructor(secondsToCountdownFrom){
+  constructor(secondsToCountdownFrom = 0){
     this.secondsToCountdownFrom = secondsToCountdownFrom;
 
     this.initialised();
@@ -75,5 +75,9 @@ export default class Timer {
       minutes: Math.floor((this.distanceInSeconds / 60) % 60),
       hours: Math.floor((this.distanceInSeconds / (60*60)) % (60*60))
     };
+  }
+
+  getCurrentTimeInSeconds(){
+    return this.distanceInSeconds*1;
   }
 }

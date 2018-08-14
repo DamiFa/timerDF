@@ -3,6 +3,8 @@ import Timer from './services/timer';
 import TimerDisplay from './TimerDisplay'
 import TimerControl from './TimerControls';
 import TimerForm from './TimerForm';
+import PresetList from "./PresetList";
+import { formatTimer } from "./services/timerFormatter"
 import sound from "./sounds/bubbles.mp3";
 
 class TimerMain extends Component{
@@ -12,7 +14,9 @@ class TimerMain extends Component{
     this.timer = new Timer(0);
 
     this.state = {
-      currentTime: this.timer.getCurrentTime()
+      currentTime: this.timer.getCurrentTime(),
+      // currentTimeInSeconds: this.timer.getCurrentTimeInSeconds(),
+      startingTime: 0,
     }
     
     this.sound = new Audio(sound);
@@ -44,12 +48,16 @@ class TimerMain extends Component{
     this.timer.reset();
   }
   
-  setUpTimer(secondsToSetUp = 0){
-    this.timer = new Timer(secondsToSetUp);
-
-    this.setState({
-      currentTime: this.timer.getCurrentTime()
-    })
+  setUpTimer(secondsToSetUp){
+    if(secondsToSetUp){
+      this.resetTimer();
+      this.timer = new Timer(secondsToSetUp);
+      
+      this.setState({
+        currentTime: this.timer.getCurrentTime(),
+        startingTime: secondsToSetUp
+      })
+    }
 
     this.timer.addEventListener(
       "secondUpdated", 
@@ -74,31 +82,23 @@ class TimerMain extends Component{
     )
   }
 
-  formatTimer(){
-    let { hours, minutes, seconds } = this.state.currentTime;
-
-    return `${this.formateTime(hours)}:${this.formateTime(minutes)}:${this.formateTime(seconds)}`;
-  }
-
-  formateTime(timeToFormat){
-    let time = timeToFormat.toString();
-    if(time.length === 1){
-      return `0${time}`;
-    }
-    else return `${time}`;
-  }
-
   render(){
+    let percentTime = this.state.startingTime <= 0 ? 0 : this.timer.getCurrentTimeInSeconds() / this.state.startingTime;
+
     return(
-      <div>
-        <TimerDisplay time={this.formatTimer()} />
+      <div id="main">
+        <TimerDisplay 
+          time={formatTimer(this.state.currentTime)}
+          progress={percentTime}
+        />
         <TimerControl 
           onStart={this.startTimer}
           onPause={this.pauseTimer}
           onResume={this.resumeTimer}
           onReset={this.resetTimer}
         />
-        <TimerForm setUpTimer={this.setUpTimer}/>
+        <TimerForm onSubmit={this.setUpTimer}/>
+        <PresetList onClick={this.setUpTimer}/>
       </div>
     )
   }
