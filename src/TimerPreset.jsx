@@ -3,7 +3,7 @@ import {formatTimer, hashTime} from "./services/timerFormatter";
 
 const TimerPreset = ({onClick, timeInSeconds, onDelete}) => (
   <li>
-    <button onClick={onClick}>{formatTimer(hashTime(timeInSeconds))}</button>
+    <label type="button" onClick={onClick}>{formatTimer(hashTime(timeInSeconds))}</label>
     <span onClick={onDelete}>X</span>
   </li>
 )

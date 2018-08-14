@@ -1,3 +1,9 @@
+export const TIMER_STATE = {
+  default: "default",
+  paused: "paused",
+  running: "running"
+};
+
 export default class Timer {
   constructor(secondsToCountdownFrom = 0){
     this.secondsToCountdownFrom = secondsToCountdownFrom;
@@ -17,14 +23,12 @@ export default class Timer {
     this.dispatchEvent('started');
 
     this.intervalId = setInterval(() => {
-      console.log(this.distanceInSeconds);
       this.currentTime = new Date().getTime();
       this.distanceInSeconds =  Math.ceil((this.targetTime - this.currentTime) / 1000);
       this.dispatchEvent('secondUpdated');
     
       if(this.distanceInSeconds <= 0){
         clearInterval(this.intervalId);
-        console.log("ended");
         this.dispatchEvent("ended");
       }
     }, 1000)
